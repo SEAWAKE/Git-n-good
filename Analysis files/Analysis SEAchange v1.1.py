@@ -579,11 +579,16 @@ class myGUI(object):
 
         #*************** Text Tab *****************
          
-        self.textButtonFrame = Frame(self.textTab, borderwidth=5, relief="sunken")
+        self.textButtonFrame = Frame(self.textTab, borderwidth=5, relief="ridge")
         self.textButtonFrame.grid(column = 0, row = 0, sticky=N)
 
         self.textBox = Text(self.textTab, width=100, height=43)
         self.textBox.grid(column = 1, row = 0, rowspan = 2)
+
+        #dose report frame
+        self.dosereportFrame = Frame(self.textTab, borderwidth=5, relief="ridge")
+        self.dosereportFrame.grid(column = 0, row = 0, sticky=S)
+        
         
         cleartextButton = Button(self.textButtonFrame, text="Clear", command= lambda: \
                               self.clearText()).grid(row=0,column=0,columnspan = 2,sticky=N)
@@ -593,57 +598,82 @@ class myGUI(object):
                               self.injectionTimesText()).grid(row=2,column=0,columnspan = 2,sticky=N)
         #SeaChange 03012020
         injectionTimesMinButton = Button(self.textButtonFrame, text="Injection Times (min only)", command= lambda: \
-                              self.injectionTimesTextMin()).grid(row=11,column=0,columnspan = 2,sticky=N)
+                              self.injectionTimesTextMin()).grid(row=13,column=0,columnspan = 2,sticky=N)
         #SeaChange 03012020
         intervalButton = Button(self.textButtonFrame, text="Interval Times (min only)", command= lambda: \
-                              self.intervalText()).grid(row=12,column=0,columnspan = 2,sticky=N)
+                              self.intervalText()).grid(row=14,column=0,columnspan = 2,sticky=N)
         #SeaChange 03162020
         bintimebutton = Button(self.textButtonFrame, text="Bin Times (min only)", command= lambda: \
-                              self.bintimeText()).grid(row=13,column=0,columnspan = 2,sticky=N)
+                              self.bintimeText()).grid(row=15,column=0,columnspan = 2,sticky=N)
 
         pyPlotEventButton = Button(self.textButtonFrame, text="PyPlot Event Record", command= lambda: \
-                              self.pyPlotEventRecord()).grid(row=3,column=0,columnspan=2,sticky=N)
+                              self.pyPlotEventRecord()).grid(row=15,column=0,columnspan=2,sticky=N)
 
-        doseReportButton = Button(self.textButtonFrame, text="Dose Report", command= lambda: \
-                              self.doseReport()).grid(row=4,column=0,columnspan = 2,sticky=E)
+        
 
-        self.startTimeLabel = Label(self.textButtonFrame, text = "T1").grid(row=5,column=0,sticky=W)        
+        #self.kFrame = Frame(self.thresholdButtonFrame, borderwidth=2, relief="sunken")
+        #self.kFrame.grid(row = 6, column = 0, columnspan=2, sticky=EW)
+        #k_Label = Label(self.kFrame, text = "k = ").grid(row=0,column=0,sticky=W)
+        #self.scale_k = Scale(self.kFrame, orient=HORIZONTAL, length=150, resolution = 0.1, \
+        #                         from_= 0.0, to = 9.9, variable = self.k_Var)
+        #self.scale_k.grid(row=0,column=1, columnspan = 1,stick = W)
+        
 
-        self.startTimeScale = Scale(self.textButtonFrame, orient=HORIZONTAL, length=100, resolution = 5, \
+        #self.text_2LPR_Frame = Frame(self.textTab, borderwidth=5, relief="sunken")
+        #self.text_2LPR_Frame.grid(row = 8, column = 0, sticky=(N))
+
+        #self.startTimeScaleFrame = Frame(self.textTab, borderwidth=2, relief="sunken")
+        #self.startTimeScaleFrame.grid(row = 0, column = 0, sticky=(S))
+
+        #here
+
+        #doseReportButton = Button(self.textButtonFrame, text="Dose Report", command= lambda: \
+        #                     self.doseReport()).grid(row=4,column=0,columnspan = 2,sticky=E)
+        #above is the original bit of code, currently trying to give "dose report" it's own frame
+
+        doseReportButton = Button(self.dosereportFrame, bg="white", font=('Helvetica', 12, 'bold'), text="Dose Report", command= lambda: \
+                              self.doseReport()).grid(row=20,column=0,columnspan = 2,sticky=E)
+
+        self.startTimeLabel = Label(self.dosereportFrame, text = "T1").grid(row=5,column=0,sticky=E)        
+
+        self.startTimeScale = Scale(self.dosereportFrame, orient=HORIZONTAL, length=100, resolution = 1, \
                                   from_=0, to=360, variable = self.startTimeVar)
         self.startTimeScale.grid(row=5,column=1)
         self.startTimeScale.set(0)
 
-        # try to put entry for T1 here
+        #entry for T1 here
+        self.starttimeEntry = Entry(self.dosereportFrame, width=6,textvariable = self.startTimeVar)
+        self.starttimeEntry.grid(row = 6, column = 1)
+        self.starttimeEntryLabel = Label(self.dosereportFrame, text = "T1 Entry").grid(row=6,column=0,sticky=E)
 
-        startTimeEntry = ttk.Entry(self.Frame4, width=6,textvariable = self.startTimeVar)
-        startTimeEntry.grid(column = 0, row = 1)
+        self.endTimeLabel = Label(self.dosereportFrame, text = "T2").grid(row=8,column=0,sticky=E) 
 
-        # end here
-
-        self.endTimeLabel = Label(self.textButtonFrame, text = "T2").grid(row=6,column=0,sticky=W) 
-
-        self.endTimeScale = Scale(self.textButtonFrame, orient=HORIZONTAL, length=100, resolution = 5, \
+        self.endTimeScale = Scale(self.dosereportFrame, orient=HORIZONTAL, length=100, resolution = 1, \
                                   from_=0, to=360, variable = self.endTimeVar)
-        self.endTimeScale.grid(row=6,column=1)
+        self.endTimeScale.grid(row=8,column=1)
         self.endTimeScale.set(360)
-        
-        concentrationLabel = Label(self.textButtonFrame, text="Conc (mg/ml)")
-        concentrationLabel.grid(row = 7, column = 0)
-        
-        self.concentrationEntry = Entry(self.textButtonFrame, width=6,textvariable = self.drugConcStr)
-        self.concentrationEntry.grid(row = 7, column = 1)
 
-        weightLabel = Label(self.textButtonFrame, text="Body weight (gms)")
-        weightLabel.grid(row = 8, column = 0)
+        #entry for T2 here
+        self.endtimeEntry = Entry(self.dosereportFrame, width=6,textvariable = self.endTimeVar)
+        self.endtimeEntry.grid(row = 7, column = 1)
+        self.starttimeEntryLabel = Label(self.dosereportFrame, text = "T2 Entry").grid(row=7,column=0,sticky=E)
+        
+        concentrationLabel = Label(self.dosereportFrame, text="Conc (mg/ml)")
+        concentrationLabel.grid(row = 9, column = 0, sticky=E)
+        
+        self.concentrationEntry = Entry(self.dosereportFrame, width=6,textvariable = self.drugConcStr)
+        self.concentrationEntry.grid(row = 9, column = 1)
 
-        self.weightEntry = Entry(self.textButtonFrame, width=6,textvariable = self.weightStr)
-        self.weightEntry.grid(row = 8, column = 1)
+        weightLabel = Label(self.dosereportFrame, text="Body weight (gms)")
+        weightLabel.grid(row = 10, column = 0)
+
+        self.weightEntry = Entry(self.dosereportFrame, width=6,textvariable = self.weightStr)
+        self.weightEntry.grid(row = 10, column = 1)
 
         intA_text_button = Button(self.textButtonFrame, text="IntA", command= lambda: \
-                              self.intA_text()).grid(row = 9,column = 0, columnspan = 2,sticky=N)
+                              self.intA_text()).grid(row = 11,column = 0, columnspan = 2,sticky=N)
         TH_text_button = Button(self.textButtonFrame, text="Threshold (TH)", command= lambda: \
-                              self.threshold_text()).grid(row = 10,column = 0, columnspan = 2,sticky=N)
+                              self.threshold_text()).grid(row = 12,column = 0, columnspan = 2,sticky=N)
 
         #***************** 2L-PR stuff **************
         self.text_2LPR_Frame = Frame(self.textTab, borderwidth=5, relief="sunken")
