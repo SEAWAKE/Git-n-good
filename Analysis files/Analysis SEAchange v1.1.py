@@ -68,6 +68,7 @@ self.k_Var is associated with self.scale_k
 
 # adapted from Dropbox/SelfAdministration/Analysis/Analysis102.py
 from tkinter import *
+from tkinter import ttk #SEA, probably not needed since "import *" is used above
 from tkinter.ttk import Notebook
 from tkinter import filedialog
 from datetime import datetime
@@ -94,7 +95,10 @@ import matplotlib.lines as lines
 from matplotlib import gridspec
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (MultipleLocator, MaxNLocator, FormatStrFormatter, AutoMinorLocator)
+       
 import matplotlib.ticker as ticker
+
+
 
 """
 Models, Views and Controllers (MCV) design: keep the representation of the data separate
@@ -322,6 +326,8 @@ class myGUI(object):
         # **************Header Row ******************
         # openFileButton = Button(headerFrame, text="Open File", command= lambda: self.openWakeFile("")).grid(row=0,column=0, sticky=W)
         
+
+        #add "ttk." in front of "Button" to allow for hover and rounded buttons?
         openFilesButton = Button(headerFrame, text="Open Files", command= lambda: self.openWakeFiles("")).grid(row=0,column=0, sticky=W)        
         spacer1Label = Label(headerFrame, text="               ").grid(row=0,column=1)
         clockTimeLabel = Label(headerFrame, textvariable = self.clockTimeStringVar).grid(row = 0, column=2)
@@ -590,23 +596,23 @@ class myGUI(object):
         self.dosereportFrame.grid(column = 0, row = 0, sticky=S)
         
         
-        cleartextButton = Button(self.textButtonFrame, text="Clear", command= lambda: \
+        cleartextButton = ttk.Button(self.textButtonFrame, text="Clear", command= lambda: \
                               self.clearText()).grid(row=0,column=0,columnspan = 2,sticky=N)
-        summarytextButton = Button(self.textButtonFrame, text="Summary", command= lambda: \
+        summarytextButton = ttk.Button(self.textButtonFrame, text="Summary", command= lambda: \
                               self.summaryText()).grid(row=1,column=0,columnspan = 2,sticky=N)
-        injectionTimesButton = Button(self.textButtonFrame, text="Injection Times", command= lambda: \
+        injectionTimesButton = ttk.Button(self.textButtonFrame, text="Injection Times", command= lambda: \
                               self.injectionTimesText()).grid(row=2,column=0,columnspan = 2,sticky=N)
         #SeaChange 03012020
-        injectionTimesMinButton = Button(self.textButtonFrame, text="Injection Times (min only)", command= lambda: \
+        injectionTimesMinButton = ttk.Button(self.textButtonFrame, text="Injection Times (min only)", command= lambda: \
                               self.injectionTimesTextMin()).grid(row=13,column=0,columnspan = 2,sticky=N)
         #SeaChange 03012020
-        intervalButton = Button(self.textButtonFrame, text="Interval Times (min only)", command= lambda: \
+        intervalButton = ttk.Button(self.textButtonFrame, text="Interval Times (min only)", command= lambda: \
                               self.intervalText()).grid(row=14,column=0,columnspan = 2,sticky=N)
         #SeaChange 03162020
-        bintimebutton = Button(self.textButtonFrame, text="Bin Times (min only)", command= lambda: \
+        bintimebutton = ttk.Button(self.textButtonFrame, text="Bin Times (min only)", command= lambda: \
                               self.bintimeText()).grid(row=15,column=0,columnspan = 2,sticky=N)
 
-        pyPlotEventButton = Button(self.textButtonFrame, text="PyPlot Event Record", command= lambda: \
+        pyPlotEventButton = ttk.Button(self.textButtonFrame, text="PyPlot Event Record", command= lambda: \
                               self.pyPlotEventRecord()).grid(row=15,column=0,columnspan=2,sticky=N)
 
         
@@ -631,6 +637,18 @@ class myGUI(object):
         #                     self.doseReport()).grid(row=4,column=0,columnspan = 2,sticky=E)
         #above is the original bit of code, currently trying to give "dose report" it's own frame
 
+
+        #below code kind of works to make custom button. mostly broken though
+        
+        #img = PhotoImage(file="C:/Git/Git-n-good/Analysis files/shead.png")
+
+        #doseReportButton = Button(self.dosereportFrame, image = img, font=('Helvetica', 12, 'bold'), text="Dose Report", command= lambda: \
+        #                      self.doseReport()).grid(row=20,column=0,columnspan = 2,sticky=E)
+        
+        #doseReportButton.button(image=img)
+        #button.pack()
+        
+        
         doseReportButton = Button(self.dosereportFrame, bg="white", font=('Helvetica', 12, 'bold'), text="Dose Report", command= lambda: \
                               self.doseReport()).grid(row=20,column=0,columnspan = 2,sticky=E)
 
