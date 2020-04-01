@@ -1,5 +1,3 @@
-#3/1/2020 SEA v1 added changes to formatting to allow for easier spreadsheet entry. Search "SeaChange03012020" to find.
-#3/16/2020 SEA v1.1 additional changes made to formatting to allow for easier spreadsheet entry. Search "SeaChange03162020" to find.
 
 """
 
@@ -577,116 +575,56 @@ class myGUI(object):
         self.threshold_matPlot_Canvas.get_tk_widget().grid(row=0,column=0)
 
         #*************** Text Tab *****************
-
-
          
-        self.textButtonFrame = Frame(self.textTab, borderwidth=5, relief="ridge")
+        self.textButtonFrame = Frame(self.textTab, borderwidth=5, relief="sunken")
         self.textButtonFrame.grid(column = 0, row = 0, sticky=N)
 
         self.textBox = Text(self.textTab, width=100, height=43)
         self.textBox.grid(column = 1, row = 0, rowspan = 2)
-
-        #dose report frame
-        self.dosereportFrame = Frame(self.textTab, borderwidth=5, relief="ridge")
-        self.dosereportFrame.grid(column = 0, row = 0, sticky=S)
-        
         
         cleartextButton = Button(self.textButtonFrame, text="Clear", command= lambda: \
                               self.clearText()).grid(row=0,column=0,columnspan = 2,sticky=N)
         summarytextButton = Button(self.textButtonFrame, text="Summary", command= lambda: \
                               self.summaryText()).grid(row=1,column=0,columnspan = 2,sticky=N)
         injectionTimesButton = Button(self.textButtonFrame, text="Injection Times", command= lambda: \
-                              self.injectionTimesText()).grid(row=2,column=0,columnspan = 2,sticky=N)
-        #SeaChange 03012020
-        injectionTimesMinButton = Button(self.textButtonFrame, text="Injection Times (min only)", command= lambda: \
-                              self.injectionTimesTextMin()).grid(row=13,column=0,columnspan = 2,sticky=N)
-        #SeaChange 03012020
-        intervalButton = Button(self.textButtonFrame, text="Interval Times (min only)", command= lambda: \
-                              self.intervalText()).grid(row=14,column=0,columnspan = 2,sticky=N)
-        #SeaChange 03162020
-        bintimebutton = Button(self.textButtonFrame, text="Bin Times (min only)", command= lambda: \
-                              self.bintimeText()).grid(row=15,column=0,columnspan = 2,sticky=N)
+                              self.injectionTimesText()).grid(row=2,column=0,columnspan = 2,sticky=N)        
 
         pyPlotEventButton = Button(self.textButtonFrame, text="PyPlot Event Record", command= lambda: \
-                              self.pyPlotEventRecord()).grid(row=15,column=0,columnspan=2,sticky=N)
+                              self.pyPlotEventRecord()).grid(row=3,column=0,columnspan=2,sticky=N)
 
-        
+        doseReportButton = Button(self.textButtonFrame, text="Dose Report", command= lambda: \
+                              self.doseReport()).grid(row=4,column=0,columnspan = 2,sticky=N)
 
-        #self.kFrame = Frame(self.thresholdButtonFrame, borderwidth=2, relief="sunken")
-        #self.kFrame.grid(row = 6, column = 0, columnspan=2, sticky=EW)
-        #k_Label = Label(self.kFrame, text = "k = ").grid(row=0,column=0,sticky=W)
-        #self.scale_k = Scale(self.kFrame, orient=HORIZONTAL, length=150, resolution = 0.1, \
-        #                         from_= 0.0, to = 9.9, variable = self.k_Var)
-        #self.scale_k.grid(row=0,column=1, columnspan = 1,stick = W)
-        
+        self.startTimeLabel = Label(self.textButtonFrame, text = "T1").grid(row=5,column=0,sticky=W)        
 
-        #self.text_2LPR_Frame = Frame(self.textTab, borderwidth=5, relief="sunken")
-        #self.text_2LPR_Frame.grid(row = 8, column = 0, sticky=(N))
-
-        #self.startTimeScaleFrame = Frame(self.textTab, borderwidth=2, relief="sunken")
-        #self.startTimeScaleFrame.grid(row = 0, column = 0, sticky=(S))
-
-        #here
-
-        #doseReportButton = Button(self.textButtonFrame, text="Dose Report", command= lambda: \
-        #                     self.doseReport()).grid(row=4,column=0,columnspan = 2,sticky=E)
-        #above is the original bit of code, currently trying to give "dose report" it's own frame
-
-
-        #below code kind of works to make custom button. mostly broken though
-        
-        #img = PhotoImage(file="C:/Git/Git-n-good/Analysis files/shead.png")
-
-        #doseReportButton = Button(self.dosereportFrame, image = img, font=('Helvetica', 12, 'bold'), text="Dose Report", command= lambda: \
-        #                      self.doseReport()).grid(row=20,column=0,columnspan = 2,sticky=E)
-        
-        #doseReportButton.button(image=img)
-        #button.pack()
-        
-        
-        doseReportButton = Button(self.dosereportFrame, bg="white", font=('Helvetica', 12, 'bold'), text="Dose Report", command= lambda: \
-                              self.doseReport()).grid(row=20,column=0,columnspan = 2,sticky=E)
-
-        self.startTimeLabel = Label(self.dosereportFrame, text = "T1").grid(row=5,column=0,sticky=E)        
-
-        self.startTimeScale = Scale(self.dosereportFrame, orient=HORIZONTAL, length=100, resolution = 1, \
+        self.startTimeScale = Scale(self.textButtonFrame, orient=HORIZONTAL, length=100, resolution = 5, \
                                   from_=0, to=360, variable = self.startTimeVar)
         self.startTimeScale.grid(row=5,column=1)
         self.startTimeScale.set(0)
 
-        #entry for T1 here
-        self.starttimeEntry = Entry(self.dosereportFrame, width=6,textvariable = self.startTimeVar)
-        self.starttimeEntry.grid(row = 6, column = 1)
-        self.starttimeEntryLabel = Label(self.dosereportFrame, text = "T1 Entry").grid(row=6,column=0,sticky=E)
+        self.endTimeLabel = Label(self.textButtonFrame, text = "T2").grid(row=6,column=0,sticky=W) 
 
-        self.endTimeLabel = Label(self.dosereportFrame, text = "T2").grid(row=8,column=0,sticky=E) 
-
-        self.endTimeScale = Scale(self.dosereportFrame, orient=HORIZONTAL, length=100, resolution = 1, \
+        self.endTimeScale = Scale(self.textButtonFrame, orient=HORIZONTAL, length=100, resolution = 5, \
                                   from_=0, to=360, variable = self.endTimeVar)
-        self.endTimeScale.grid(row=8,column=1)
+        self.endTimeScale.grid(row=6,column=1)
         self.endTimeScale.set(360)
-
-        #entry for T2 here
-        self.endtimeEntry = Entry(self.dosereportFrame, width=6,textvariable = self.endTimeVar)
-        self.endtimeEntry.grid(row = 7, column = 1)
-        self.starttimeEntryLabel = Label(self.dosereportFrame, text = "T2 Entry").grid(row=7,column=0,sticky=E)
         
-        concentrationLabel = Label(self.dosereportFrame, text="Conc (mg/ml)")
-        concentrationLabel.grid(row = 9, column = 0, sticky=E)
+        concentrationLabel = Label(self.textButtonFrame, text="Conc (mg/ml)")
+        concentrationLabel.grid(row = 7, column = 0)
         
-        self.concentrationEntry = Entry(self.dosereportFrame, width=6,textvariable = self.drugConcStr)
-        self.concentrationEntry.grid(row = 9, column = 1)
+        self.concentrationEntry = Entry(self.textButtonFrame, width=6,textvariable = self.drugConcStr)
+        self.concentrationEntry.grid(row = 7, column = 1)
 
-        weightLabel = Label(self.dosereportFrame, text="Body weight (gms)")
-        weightLabel.grid(row = 10, column = 0)
+        weightLabel = Label(self.textButtonFrame, text="Body weight (gms)")
+        weightLabel.grid(row = 8, column = 0)
 
-        self.weightEntry = Entry(self.dosereportFrame, width=6,textvariable = self.weightStr)
-        self.weightEntry.grid(row = 10, column = 1)
+        self.weightEntry = Entry(self.textButtonFrame, width=6,textvariable = self.weightStr)
+        self.weightEntry.grid(row = 8, column = 1)
 
         intA_text_button = Button(self.textButtonFrame, text="IntA", command= lambda: \
-                              self.intA_text()).grid(row = 11,column = 0, columnspan = 2,sticky=N)
+                              self.intA_text()).grid(row = 9,column = 0, columnspan = 2,sticky=N)
         TH_text_button = Button(self.textButtonFrame, text="Threshold (TH)", command= lambda: \
-                              self.threshold_text()).grid(row = 12,column = 0, columnspan = 2,sticky=N)
+                              self.threshold_text()).grid(row = 10,column = 0, columnspan = 2,sticky=N)
 
         #***************** 2L-PR stuff **************
         self.text_2LPR_Frame = Frame(self.textTab, borderwidth=5, relief="sunken")
@@ -1991,7 +1929,7 @@ class myGUI(object):
 
             """
             self.textBox.insert(END,'\n****************************\n')
-            self.textBox.insert(END,"Two Lever PR Summary for "+ self.recordList[self.fileChoice.get()].fileName+ '\n') #look here for how to display rat id!
+            self.textBox.insert(END,"Two Lever PR Summary for "+ self.recordList[self.fileChoice.get()].fileName+ '\n')
 
             printPumpTimes = True
             # PR Lever
@@ -2190,93 +2128,7 @@ class myGUI(object):
         y_logRange = 2
         GraphLib.drawLog_X_Axis(aCanvas,x_zero,y_zero,x_pixel_width,x_startValue,x_logRange,x_caption)
         GraphLib.drawLog_Y_Axis(aCanvas,x_zero+x_pixel_width,y_zero,y_pixel_height,y_startValue,y_logRange,y_caption, test = True, leftLabel=False)
-    "edits made by SEA so that only 'time (min)' is displayed, easing spreadsheet input " #SeaChange03012020         
-    def injectionTimesTextMin(self):
-        aRecord = self.recordList[self.fileChoice.get()]
-        self.textBox.insert(END,aRecord.fileName+"\n") #this adds rat id to output seachange03012020
-        injection = 0
-        previousInjTime = 0
-        self.textBox.insert(END,"Time of lever press (min)\n")
-        pumpOn = False
-        for pairs in aRecord.datalist:
-            if pairs[1] == 'P':
-                pumpStartTime = pairs[0]
-                injection = injection + 1
-                secTime = pairs[0]/1000
-                minTime = secTime/60
-                interval = secTime - previousInjTime
-                previousInjTime = secTime
-                pumpOn = True
-            if pairs[1] == 'p':
-                if pumpOn:
-                    pumpOn = False
-                    duration = pairs[0]-pumpStartTime
-                    if injection == 1:
-                        tempString = "{3:10.2f}".format(injection,duration,secTime,minTime,interval)
-                    else:
-                        tempString = "{3:10.2f}".format(injection,duration,secTime,minTime,interval)
-                    self.textBox.insert(END,tempString+ "\n")
-                
-        self.textBox.insert(END,"Number of injections: "+str(injection)+"\n")
-
-    def intervalText(self): #SeaChange03012020 added infusion intervals only
-
-        aRecord = self.recordList[self.fileChoice.get()]
-        self.textBox.insert(END,aRecord.fileName+"\n") #this adds rat id to output seachange03012020
-        injection = 0
-        previousInjTime = 0
-        self.textBox.insert(END,"Interval (min)\nTime to first infusion -->")
-        pumpOn = False
-        for pairs in aRecord.datalist:
-            if pairs[1] == 'P':
-                pumpStartTime = pairs[0]
-                injection = injection + 1
-                secTime = pairs[0]/1000
-                minTime = secTime/60
-                interval = (secTime - previousInjTime)/60 #()/60 changes interval seconds to interval minutes seachange03012020
-                previousInjTime = secTime
-                pumpOn = True
-            if pairs[1] == 'p':
-                if pumpOn:
-                    pumpOn = False
-                    duration = pairs[0]-pumpStartTime
-                    if injection == 1:
-                        tempString = "{3:10.2f}".format(injection,duration,secTime,minTime,interval)
-                    else:
-                        tempString = "{4:10.2f}".format(injection,duration,secTime,minTime,interval)
-                    self.textBox.insert(END,tempString+"\n")
-                
-        self.textBox.insert(END,"Number of injections: "+str(injection)+"\n")
-
-    def bintimeText(self): #SeaChange03162020 added bin times only
-
-        aRecord = self.recordList[self.fileChoice.get()]
-        self.textBox.insert(END,aRecord.fileName+"\n") #this adds rat id to output seachange03012020
-        injection = 0
-        previousInjTime = 0
-        self.textBox.insert(END,"Interval (min)\n Length of first infusion -->")
-        pumpOn = False
-        for pairs in aRecord.datalist:
-            if pairs[1] == 'P':
-                pumpStartTime = pairs[0]
-                injection = injection + 1
-                secTime = pairs[0]/1000
-                minTime = secTime/60
-                interval = (secTime - previousInjTime)/60 #()/60 changes interval seconds to interval minutes seachange03012020
-                previousInjTime = secTime
-                pumpOn = True
-            if pairs[1] == 'p':
-                if pumpOn:
-                    pumpOn = False
-                    duration = pairs[0]-pumpStartTime
-                    if injection == 1:
-                        tempString = "{1:10.2f}".format(injection,duration,secTime,minTime,interval)
-                    else:
-                        tempString = "{1:10.2f}".format(injection,duration,secTime,minTime,interval)
-                    self.textBox.insert(END,tempString+"\n")
-                
-        self.textBox.insert(END,"Number of injections: "+str(injection)+"\n")
-        
+               
     def injectionTimesText(self):
         aRecord = self.recordList[self.fileChoice.get()]
         injection = 0
@@ -2457,13 +2309,6 @@ class myGUI(object):
         aString = 'Injections per block: '
         for item in pump_count_list:
             aString = aString + str(item) + ' '
-        self.textBox.insert(END,aString+"\n")
-        print(pump_count_list)
-
-        pump_count_list = ListLib.get_pump_count_per_block(aList)
-        aString = 'Injections per block vertical: '
-        for item in pump_count_list:
-            aString = aString + str(item) + ' \n'#SeaChange03012020 added \n to make list vertical, easing spreadsheet entry
         self.textBox.insert(END,aString+"\n")
         print(pump_count_list)
 
