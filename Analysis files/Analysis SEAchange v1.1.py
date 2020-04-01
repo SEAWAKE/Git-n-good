@@ -2279,6 +2279,7 @@ class myGUI(object):
         
     def injectionTimesText(self):
         aRecord = self.recordList[self.fileChoice.get()]
+        self.textBox.insert(END,aRecord.fileName+"\n") #this adds rat id to output seachange03012020
         injection = 0
         previousInjTime = 0
         self.textBox.insert(END,"Inj Duration   Time (sec)   Time (min) Interval (sec)\n")
@@ -2439,6 +2440,7 @@ class myGUI(object):
         
 
     def threshold_text(self):
+        self.textBox.insert("1.0",self.recordList[self.fileChoice.get()])
         aRecord = self.recordList[self.fileChoice.get()]
         aList = aRecord.datalist
         count = ListLib.count_char('L',aList)
@@ -2847,7 +2849,7 @@ class myGUI(object):
         self.textBox.insert("1.0",self.recordList[self.fileChoice.get()])
 
         aRecord = self.recordList[self.fileChoice.get()]
-
+        
         timeFirstInjection = 0
         T1 = 0
         numInj = 0
@@ -2863,6 +2865,22 @@ class myGUI(object):
                     interval = T2-T1
                     totalIntervals = totalIntervals + interval
                 T1 = T2
+         #try adding code for session length here
+
+        for pairs in aRecord.datalist:
+            if pairs[1] == "E":
+                sessionEnd = pairs[0]
+                
+    
+        #aRecord = self.recordList[self.fileChoice.get()]
+        #aList = aRecord.datalist
+        #count = ListLib.count_char('E',aList)
+        #aString = 'Number of ends: '+str(count)
+        #self.textBox.insert(END,aString+"\n")
+                
+             
+
+                
         timeLastInjection = T1
         self.textBox.insert(END,"First inj = "+str(round(timeFirstInjection/1000,1))+" sec ("+str(round(timeFirstInjection/60000,0))+" min)\n")
         self.textBox.insert(END,"Last inj  = "+str(round(timeLastInjection/ 1000,1))+" sec ("+str(round(timeLastInjection/ 60000,0))+" min)\n")
@@ -2870,6 +2888,7 @@ class myGUI(object):
         meanInterval = totalIntervals/numIntervals
         self.textBox.insert(END,"Mean interval = "+str(round(meanInterval/1000,1))+" sec, ("+str(round(meanInterval/60000,2))+" min)\n")
         self.textBox.insert(END,"Rate (inj/hr) = "+str(round(60/(meanInterval/60000),3))+"\n")
+        self.textBox.insert(END,"session length (min)= "+str(round((sessionEnd/60000),0))+"\n")
         self.textBox.insert(END,"***************************\n")
 
     def periodic_check(self):
